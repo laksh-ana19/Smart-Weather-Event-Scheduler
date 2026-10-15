@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Weather-Based Event Scheduling System</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; padding: 28px 16px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #203047;
+            background: linear-gradient(135deg, #e8f5ff, #e9f7ef);
+            min-height: 100vh;
+        }
+        header { text-align: center; max-width: 850px; margin: 0 auto 24px; }
+        h1 { margin-bottom: 8px; color: #174a6e; }
+        header p { margin-top: 0; color: #526579; }
+        .panel {
+            max-width: 760px; margin: 18px auto; padding: 24px;
+            background: white; border-radius: 16px;
+            box-shadow: 0 8px 28px rgba(30, 70, 100, .10);
+        }
+        label { display: block; font-weight: 600; margin: 14px 0 6px; }
+        input {
+            width: 100%; padding: 12px; border: 1px solid #cbd5e1;
+            border-radius: 8px; font-size: 15px;
+        }
+        button {
+            margin-top: 20px; width: 100%; padding: 13px;
+            border: 0; border-radius: 8px; color: white;
+            background: #176b87; font-size: 16px; font-weight: 700;
+            cursor: pointer;
+        }
+        button:hover { background: #10536b; }
+        .result { border-left: 5px solid #176b87; white-space: pre-line; line-height: 1.6; }
+        .error { border-left: 5px solid #c0392b; color: #8d2118; }
+        .legend { line-height: 1.8; }
+        .green { color: green; font-weight: 700; }
+        .yellow { color: #b8860b; font-weight: 700; }
+        .red { color: red; font-weight: 700; }
+        img { width: 100%; height: auto; border-radius: 10px; }
+        footer { text-align: center; color: #65758b; margin: 28px 0 8px; font-size: 13px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Smart Weather-Based Event Scheduling System</h1>
+    <p>Plan outdoor college events with help from weather forecasts.</p>
+</header>
+
+<main>
+    <section class="panel">
+        <form method="post">
+            <label for="city">City</label>
+            <input id="city" type="text" name="city" placeholder="e.g., Kottayam"
+                   value="{{ form_data.city }}" required>
+
+            <label for="planned_datetime">Planned event start (24-hour clock)</label>
+            <input id="planned_datetime" type="text" name="planned_datetime"
+                   placeholder="YYYY-MM-DD HH:MM, e.g. 2026-10-20 15:00"
+                   value="{{ form_data.planned_datetime }}" required>
+            <small>Use the format YYYY-MM-DD HH:MM. Events must take place between 6:00 AM and 10:00 PM.</small>
+
+            <label for="duration">Event duration (hours)</label>
+            <input id="duration" type="number" name="duration" min="1" max="12"
+                   value="{{ form_data.duration }}" required>
+
+            <button type="submit">Check Weather and Suggest a Time</button>
+        </form>
+    </section>
+
+    {% if error %}
+    <section class="panel error">
+        <h2>Something needs attention</h2>
+        <p>{{ error }}</p>
+    </section>
+    {% endif %}
+
+    {% if suggestion %}
+    <section class="panel result">
+        <h2>Event Planning Result</h2>
+        <p>{{ suggestion }}</p>
+    </section>
+    {% endif %}
+
+    {% if timeline_url %}
+    <section class="panel">
+        <h2>Five-Day Weather Overview</h2>
+        <p class="legend">
+            <span class="green">Green</span> - Good weather &nbsp;&nbsp;
+            <span class="yellow">Yellow</span> - Moderate caution &nbsp;&nbsp;
+            <span class="red">Red</span> - Avoid scheduling
+        </p>
+        <img src="{{ timeline_url }}?v={{ range(1, 1000000) | random }}"
+             alt="Color-coded five-day weather forecast">
+    </section>
+    {% endif %}
+</main>
+<footer>Smart Weather-Based Event Scheduling System · College OAT event planning</footer>
+</body>
+</html>
