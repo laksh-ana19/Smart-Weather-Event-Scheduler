@@ -2,6 +2,16 @@
 
 A small Flask web application for checking forecast conditions and finding a nearby alternative time for outdoor events, such as events at a college Open Air Theatre (OAT).
 
+## Screenshots
+
+**Event input form**
+
+![Event input form](screenshots/App_info.png)
+
+**Weather check, suggested time and five-day forecast overview**
+
+![Result and forecast chart](screenshots/Result.png)
+
 ## Files
 
 - `app.py` — Flask web application and form handling.
